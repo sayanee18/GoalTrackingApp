@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "698501719600",
+    "project_id": "goal-tracker-app-e9a5d",
+    "storage_bucket": "goal-tracker-app-e9a5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698501719600:android:25418dbf49b5d5119d6ff5",
+        "android_client_info": {
+          "package_name": "com.example.goal_tracking_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5VV7lzlo6L9Ht5Qsdmgix5vsUmxdPKrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
