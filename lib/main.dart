@@ -48,17 +48,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: HexColor("FFE500")),
-        useMaterial3: true,
-      ),
-      home: HomePage(
-        controller: userController,
-      ),
-      // home: isUserLogedIn() ? HomePage() : LoginPage()
-    );
+    return GetMaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: HexColor("FFE500")),
+          useMaterial3: true,
+        ),
+        // home: LoginPage(
+        //   controller: userController,
+        // ),
+        home: isUserLogedIn()
+            ? HomePage(controller: userController)
+            : LoginPage(
+                controller: userController,
+              ));
   }
 }
 

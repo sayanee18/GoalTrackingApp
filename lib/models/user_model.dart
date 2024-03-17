@@ -33,12 +33,12 @@ class UserModel {
       name: map['name'] as String,
       email: map['email'] as String,
       completed: List<TaskModel>.from(
-        (map['completed'] as List<int>).map<TaskModel>(
+        (map['completed'] as List<dynamic>).map<TaskModel>(
           (x) => TaskModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
       pending: List<TaskModel>.from(
-        (map['pending'] as List<int>).map<TaskModel>(
+        (map['pending'] as List<dynamic>).map<TaskModel>(
           (x) => TaskModel.fromMap(x as Map<String, dynamic>),
         ),
       ),

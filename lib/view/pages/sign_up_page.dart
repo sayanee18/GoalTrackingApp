@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goal_tracking_app/controller/user_controller.dart';
 import 'package:goal_tracking_app/service/user_service.dart';
-import 'package:goal_tracking_app/view/pages/home_page.dart';
-import 'package:goal_tracking_app/view/pages/sign_up_page.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key, required this.controller});
+import 'home_page.dart';
+
+class SignUp extends StatelessWidget {
+  SignUp({super.key, required this.controller});
   UserController controller;
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.sizeOf(context).height;
@@ -24,7 +25,30 @@ class LoginPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset("assets/login.png"),
+                Image.asset(
+                  "assets/sign.png",
+                  // height: height * 0.5,
+                ),
+                const Text(
+                  "Name",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                TextFormField(
+                  controller: name,
+                  decoration: InputDecoration(
+                    fillColor: const Color.fromARGB(255, 245, 245, 245),
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
                 const Text(
                   "Email",
                   style: TextStyle(
@@ -69,11 +93,14 @@ class LoginPage extends StatelessWidget {
                   onTap: () async {
                     UserService service = UserService();
                     await service
-                        .singUpUser(email.text, password.text)
+                        .loginUser(email.text, password.text)
                         .then((value) => {
+                              controller.userModel.value.name = name.text,
                               if (FirebaseAuth.instance.currentUser != null)
                                 Get.offAll(
-                                  HomePage(controller: controller),
+                                  HomePage(
+                                    controller: controller,
+                                  ),
                                 ),
                             });
                   },
@@ -83,29 +110,13 @@ class LoginPage extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: HexColor("FFE500"),
                         borderRadius: BorderRadius.circular(20)),
-                    child: Center(
+                    child: const Center(
                       child: Text(
-                        "Login",
+                        "Register",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      Get.to(SignUp(
-                        controller: controller,
-                      ));
-                    },
-                    child: Text(
-                      "New here? Register",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 18,
                       ),
                     ),
                   ),

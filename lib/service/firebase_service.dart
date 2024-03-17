@@ -16,7 +16,7 @@ class FirebaseService {
     final data = userModel.toMap();
     await db
         .collection("users")
-        .doc(userModel.userID)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .set(data, SetOptions(merge: true));
   }
 }

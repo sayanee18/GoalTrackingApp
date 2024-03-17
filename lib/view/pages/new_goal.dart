@@ -4,6 +4,7 @@ import 'package:goal_tracking_app/constant/constants.dart';
 import 'package:goal_tracking_app/controller/user_controller.dart';
 import 'package:goal_tracking_app/models/task_model.dart';
 import 'package:goal_tracking_app/service/firebase_service.dart';
+import 'package:goal_tracking_app/service/task_service.dart';
 import 'package:goal_tracking_app/view/pages/home_page.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -67,13 +68,28 @@ class AddNewGoal extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () async {
+                    List<TaskModel> model = [];
+                    for (dynamic m in subgoal) {
+                      if (m is TaskModel) model.add(m);
+                    }
                     controller.userModel.value.pending.add(
                       TaskModel(
                         taskName: titleEditingController.text,
                         description: descriptionEditingController.text,
                         startDate: DateTime.now(),
                         isCompleted: false,
-                        subTask: subgoal as List<TaskModel>,
+                        subTask: model,
+                        priority: priority,
+                      ),
+                    );
+                    TaskService taskService = TaskService();
+                    taskService.createTaskNotification(
+                      TaskModel(
+                        taskName: titleEditingController.text,
+                        description: descriptionEditingController.text,
+                        startDate: DateTime.now(),
+                        isCompleted: false,
+                        subTask: model,
                         priority: priority,
                       ),
                     );
@@ -203,7 +219,7 @@ class AddNewGoal extends StatelessWidget {
                   height: 25,
                 ),
                 Obx(
-                  () => SizedBox(
+                  () => Expanded(
                     // height: subgoal.length * height * 0.12,
                     child: ListView.builder(
                       itemCount: subgoal.length,
@@ -235,6 +251,9 @@ class AddNewGoal extends StatelessWidget {
                             ),
                             TextFormField(
                               controller: titleEditingController,
+                              onChanged: (value) {
+                                subgoal[index].taskName = value;
+                              },
                               decoration: InputDecoration(
                                 fillColor:
                                     const Color.fromARGB(255, 245, 245, 245),
