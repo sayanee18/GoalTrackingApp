@@ -56,10 +56,9 @@ class UserService {
     );
   }
 
-  Future<UserModel> getUser(UserCredential userCredential) async {
-    Map<String, dynamic> userData =
-        await firebaseService.getUserDetails(userCredential);
-    userData['userID'] = userCredential.user!.uid;
+  Future<UserModel> getUser() async {
+    Map<String, dynamic> userData = await firebaseService.getUserDetails();
+    userData['userID'] = FirebaseAuth.instance.currentUser!.uid;
     return UserModel.fromMap(userData);
   }
 }

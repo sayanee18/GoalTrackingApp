@@ -5,9 +5,9 @@ import 'package:goal_tracking_app/models/user_model.dart';
 class FirebaseService {
   var db = FirebaseFirestore.instance;
 
-  Future<Map<String, dynamic>> getUserDetails(
-      UserCredential userCredential) async {
-    final docRef = db.collection("users").doc(userCredential.user!.uid);
+  Future<Map<String, dynamic>> getUserDetails() async {
+    final docRef =
+        db.collection("users").doc(FirebaseAuth.instance.currentUser!.uid);
     DocumentSnapshot data = await docRef.get();
     return data.data() as Map<String, dynamic>;
   }

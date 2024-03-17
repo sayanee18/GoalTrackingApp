@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroductionPage extends StatelessWidget {
   IntroductionPage({super.key});
-
-  var listPageModel = [
+  Rx<int> currentIndex = 0.obs;
+  final listPageModel = [
     PageViewModel(
       title: "Set your goals!",
       body:
@@ -24,17 +25,67 @@ class IntroductionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IntroductionScreen(
-        pages: listPageModel,
-        showSkipButton: false,
-        showNextButton: true,
-        next: const Text("Next"),
-        done: const Text("Done"),
-        // controlsPosition: ,
-        onDone: () {
-          // On button pressed
-        },
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
+    return SafeArea(
+      child: Scaffold(
+        body: SizedBox(
+          height: height,
+          width: width,
+          child: IntroductionScreen(
+            canProgress: (val) {
+              currentIndex.value = val;
+              return true;
+            },
+            customProgress: Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: 60.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 10,
+                      width: currentIndex.value == 0 ? 20 : 10,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow,
+                        shape: currentIndex.value == 0
+                            ? BoxShape.rectangle
+                            : BoxShape.circle,
+                        borderRadius: currentIndex.value == 0
+                            ? BorderRadius.circular(3)
+                            : null,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 3,
+                    ),
+                    Container(
+                      height: 10,
+                      width: currentIndex.value == 1 ? 20 : 10,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow,
+                        shape: currentIndex.value == 1
+                            ? BoxShape.rectangle
+                            : BoxShape.circle,
+                        borderRadius: currentIndex.value == 1
+                            ? BorderRadius.circular(3)
+                            : null,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            pages: listPageModel,
+            showSkipButton: false,
+            showNextButton: true,
+            next: const Text("Next"),
+            done: const Text("Done"),
+            onDone: () {
+              // On button pressed
+            },
+          ),
+        ),
       ),
     );
   }
