@@ -19,7 +19,7 @@ class TaskService {
         // This is very important to not harm the user experience
         AwesomeNotifications().requestPermissionToSendNotifications();
       } else {
-        final oneHourBefore = model.endDate.subtract(const Duration(hours: 1));
+        final oneHourBefore = model.endDate!.subtract(const Duration(hours: 1));
         await AwesomeNotifications().createNotification(
             schedule: NotificationCalendar.fromDate(date: oneHourBefore),
             content: NotificationContent(

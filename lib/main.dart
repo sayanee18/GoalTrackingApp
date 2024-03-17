@@ -2,10 +2,14 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:goal_tracking_app/controller/user_controller.dart';
 import 'package:goal_tracking_app/firebase_options.dart';
 import 'package:goal_tracking_app/view/pages/home_page.dart';
 import 'package:goal_tracking_app/view/pages/introduction_page.dart';
 import 'package:goal_tracking_app/view/pages/login_page.dart';
+import 'package:goal_tracking_app/view/pages/new_goal.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,13 +34,13 @@ void main() async {
             channelGroupName: 'Basic group')
       ],
       debug: true);
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final userController = Get.put(UserController());
 
-  // This widget is the root of your application.
+  MyApp({super.key});
   bool isUserLogedIn() {
     User? user = FirebaseAuth.instance.currentUser;
     return user == null ? false : true;
@@ -47,10 +51,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: HexColor("FFE500")),
         useMaterial3: true,
       ),
-      home: IntroductionPage(),
+      home: HomePage(
+        controller: userController,
+      ),
       // home: isUserLogedIn() ? HomePage() : LoginPage()
     );
   }

@@ -5,14 +5,18 @@ class TaskModel {
   String taskName = "";
   String description = "";
   DateTime startDate;
-  DateTime endDate;
+  DateTime? endDate;
+  bool isCompleted = false;
   String priority = "Normal";
+  List<dynamic> subTask = [];
   TaskModel({
     required this.taskName,
     required this.description,
     required this.startDate,
-    required this.endDate,
+    this.endDate,
+    required this.isCompleted,
     required this.priority,
+    required this.subTask,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,8 +24,10 @@ class TaskModel {
       'taskName': taskName,
       'description': description,
       'startDate': startDate.millisecondsSinceEpoch,
-      'endDate': endDate.millisecondsSinceEpoch,
+      'endDate': endDate != null ? endDate!.millisecondsSinceEpoch : 0,
+      'isCompleted': isCompleted,
       'priority': priority,
+      'subTask': subTask.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -31,7 +37,13 @@ class TaskModel {
       description: map['description'] as String,
       startDate: DateTime.fromMillisecondsSinceEpoch(map['startDate'] as int),
       endDate: DateTime.fromMillisecondsSinceEpoch(map['endDate'] as int),
+      isCompleted: map['isCompleted'] as bool,
       priority: map['priority'] as String,
+      subTask: List<TaskModel>.from(
+        (map['subTask'] as List<dynamic>).map<dynamic>(
+          (x) => TaskModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
